@@ -28,17 +28,14 @@ export default function MapSection() {
           overflow: 'hidden',
           boxShadow: '0 32px 80px rgba(109,40,217,0.14), 0 4px 24px rgba(0,0,0,0.06)',
           border: '1px solid #ede9fe',
-          height: 420,
-          width: '100%',
-          display: 'block',
         }}>
 
-          {/* Map iframe */}
+          {/* Map iframe — block layout, NOT absolute, so it renders at full width */}
           <iframe
             src="https://www.openstreetmap.org/export/embed.html?bbox=17.028%2C51.082%2C17.048%2C51.092&layer=mapnik&marker=51.087%2C17.038"
+            width="100%"
+            height="420"
             style={{
-              position: 'absolute', top: 0, left: 0,
-              width: '100%', height: '100%',
               border: 'none', display: 'block',
               filter: 'saturate(0.85) hue-rotate(220deg) brightness(1.05)',
             }}
