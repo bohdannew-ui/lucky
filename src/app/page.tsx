@@ -8,6 +8,7 @@ import Team from '@/components/Team'
 import FAQ from '@/components/FAQ'
 import Contact from '@/components/Contact'
 import MapSection from '@/components/MapSection'
+import KartaGenerator from '@/components/KartaGenerator'
 import Footer from '@/components/Footer'
 import ExitPopup from '@/components/ExitPopup'
 import FloatingButtons from '@/components/FloatingButtons'
@@ -24,6 +25,7 @@ export default function Home() {
         <Reviews />
         <FAQ />
         <Team />
+        <KartaGenerator />
         <Contact />
         <MapSection />
       </main>
