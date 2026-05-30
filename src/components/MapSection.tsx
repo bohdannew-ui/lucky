@@ -109,8 +109,8 @@ export default function MapSection() {
 
         </div>
 
-        {/* Button below map */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+        {/* Button below map — same width as card, content centered */}
+        <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
           <a
             href="https://maps.google.com/?q=al.+Karkonoska+45,+Wrocław"
             target="_blank"
@@ -118,7 +118,7 @@ export default function MapSection() {
             style={{
               background: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
               color: '#fff', fontWeight: 700, fontSize: 14,
-              padding: '12px 28px', borderRadius: 100,
+              padding: '14px 32px', borderRadius: 100,
               textDecoration: 'none',
               boxShadow: '0 4px 16px rgba(109,40,217,0.35)',
               display: 'inline-flex', alignItems: 'center', gap: 8,
