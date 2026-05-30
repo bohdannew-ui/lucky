@@ -104,35 +104,32 @@ function MemberCard({ member, index, gyro }: { member: typeof team[0]; index: nu
         perspective: '800px',
       }}
     >
-      {/* Tilt wrapper — transform only, NO overflow:hidden to keep rounded corners */}
       <div
         ref={cardRef}
         onMouseEnter={() => setHovered(true)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
-          borderRadius: 24,
           height: '100%',
+          borderRadius: 24,
           boxShadow: hovered
             ? '0 28px 70px rgba(109,40,217,0.2), 0 8px 24px rgba(0,0,0,0.08)'
             : '0 2px 16px rgba(109,40,217,0.06), 0 1px 4px rgba(0,0,0,0.04)',
+          border: '1px solid',
+          borderColor: hovered ? '#c4b5fd' : '#ede9fe',
           transition: hovered
-            ? 'box-shadow 0.2s, transform 0.08s'
-            : 'box-shadow 0.5s, transform 0.5s cubic-bezier(0.4,0,0.2,1)',
+            ? 'box-shadow 0.2s, border-color 0.2s, transform 0.08s'
+            : 'box-shadow 0.5s, border-color 0.2s, transform 0.5s cubic-bezier(0.4,0,0.2,1)',
           transform: hovered
             ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(8px)`
             : `rotateX(${gyro.x}deg) rotateY(${gyro.y}deg) translateZ(0px)`,
           willChange: 'transform',
+          clipPath: 'inset(0 round 24px)',
         }}
       >
-        {/* Inner card — overflow:hidden here, separate from transform */}
         <div style={{
-          background: '#fff', borderRadius: 24,
+          background: '#fff',
           height: '100%',
-          border: '1px solid',
-          borderColor: hovered ? '#c4b5fd' : '#ede9fe',
-          transition: 'border-color 0.2s',
-          overflow: 'hidden',
           position: 'relative',
         }}>
         {/* Photo area */}
