@@ -69,10 +69,28 @@ function useInView(threshold = 0.15) {
   return { ref, inView }
 }
 
-function MemberCard({ member, index }: { member: typeof team[0]; index: number }) {
+function MemberCard({ member, index, gyro }: { member: typeof team[0]; index: number; gyro: { x: number; y: number } }) {
   const { ref, inView } = useInView()
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [hovered, setHovered] = useState(false)
   const tc = tagColors[member.tag]
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const cx = rect.left + rect.width / 2
+    const cy = rect.top + rect.height / 2
+    const dx = (e.clientX - cx) / (rect.width / 2)
+    const dy = (e.clientY - cy) / (rect.height / 2)
+    setTilt({ x: -dy * 10, y: dx * 10 })
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+    setTilt({ x: 0, y: 0 })
+  }
 
   return (
     <div
@@ -83,23 +101,32 @@ function MemberCard({ member, index }: { member: typeof team[0]; index: number }
         transition: `opacity 0.6s ease ${index * 0.12}s, transform 0.6s cubic-bezier(0.34,1.2,0.64,1) ${index * 0.12}s`,
         cursor: 'default',
         height: '100%',
+        perspective: '800px',
       }}
     >
       <div
+        ref={cardRef}
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         style={{
           background: '#fff', borderRadius: 24,
           height: '100%',
           border: '1px solid',
           borderColor: hovered ? '#c4b5fd' : '#ede9fe',
           boxShadow: hovered
-            ? '0 24px 60px rgba(109,40,217,0.15), 0 4px 16px rgba(0,0,0,0.06)'
+            ? '0 28px 70px rgba(109,40,217,0.2), 0 8px 24px rgba(0,0,0,0.08)'
             : '0 2px 16px rgba(109,40,217,0.06), 0 1px 4px rgba(0,0,0,0.04)',
-          transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
-          transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
+          transition: hovered
+            ? 'box-shadow 0.2s, border-color 0.2s'
+            : 'all 0.5s cubic-bezier(0.4,0,0.2,1)',
+          transform: hovered
+            ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(8px)`
+            : `rotateX(${gyro.x}deg) rotateY(${gyro.y}deg) translateZ(0px)`,
+          transformStyle: 'preserve-3d',
           overflow: 'hidden',
           position: 'relative',
+          willChange: 'transform',
         }}
       >
         {/* Photo area */}
@@ -195,6 +222,7 @@ function MemberCard({ member, index }: { member: typeof team[0]; index: number }
 export default function Team() {
   const titleRef = useRef<HTMLDivElement>(null)
   const [titleVisible, setTitleVisible] = useState(false)
+  const [gyro, setGyro] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const el = titleRef.current
@@ -204,6 +232,19 @@ export default function Team() {
     }, { threshold: 0.2 })
     obs.observe(el)
     return () => obs.disconnect()
+  }, [])
+
+  // Gyroscope for mobile
+  useEffect(() => {
+    const handler = (e: DeviceOrientationEvent) => {
+      const x = Math.max(-12, Math.min(12, (e.beta ?? 0) - 45)) / 12
+      const y = Math.max(-12, Math.min(12, e.gamma ?? 0)) / 12
+      setGyro({ x: x * 8, y: y * 8 })
+    }
+    if (typeof window !== 'undefined' && 'DeviceOrientationEvent' in window) {
+      window.addEventListener('deviceorientation', handler)
+      return () => window.removeEventListener('deviceorientation', handler)
+    }
   }, [])
 
   return (
@@ -275,7 +316,7 @@ export default function Team() {
           gap: 24,
         }}>
           {team.map((member, i) => (
-            <MemberCard key={member.name} member={member} index={i} />
+            <MemberCard key={member.name} member={member} index={i} gyro={gyro} />
           ))}
         </div>
 
