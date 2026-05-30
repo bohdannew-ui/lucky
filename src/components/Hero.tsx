@@ -43,7 +43,7 @@ export default function Hero() {
   }, [cursor])
 
   return (
-    <section style={{ position: 'relative', overflow: 'hidden', paddingTop: 68 }}>
+    <section id="hero" style={{ position: 'relative', overflow: 'hidden', paddingTop: 68 }}>
       <div style={{
         position: 'absolute', inset: 0,
         background: 'linear-gradient(160deg, #faf8ff 0%, #ede9ff 35%, #fdf9ff 65%, #fff 100%)',
@@ -317,8 +317,8 @@ export default function Hero() {
           to   { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 900px) {
-          section > div > div { grid-template-columns: 1fr !important; }
-          section > div > div > div:last-child { display: none; }
+          #hero > div > div { grid-template-columns: 1fr !important; }
+          #hero > div > div > div:last-child { display: none; }
         }
         @media (max-width: 600px) {
           .hero-btns { flex-wrap: wrap !important; }

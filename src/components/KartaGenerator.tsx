@@ -137,10 +137,11 @@ export default function KartaGenerator() {
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15 }}>Введите данные — карта обновится в реальном времени</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+        <div className="karta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
 
           {/* Left — 3D card */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+          <div className="karta-card-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+            <div className="karta-scale-wrap">
             <div
               ref={cardRef}
               style={{ cursor: isDragging ? 'grabbing' : 'grab', userSelect: 'none', touchAction: 'none' }}
@@ -310,6 +311,8 @@ export default function KartaGenerator() {
               </div>
             </div>
 
+            </div>{/* /karta-scale-wrap */}
+
             {/* Controls */}
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               <button
@@ -420,10 +423,28 @@ export default function KartaGenerator() {
           from { opacity: 0.2; transform: scale(1); }
           to   { opacity: 0.8; transform: scale(1.4); }
         }
+        .karta-scale-wrap {
+          display: flex;
+          justify-content: center;
+        }
         @media (max-width: 760px) {
-          section > div > div:last-child { grid-template-columns: 1fr !important; }
-          section > div > div:last-child > div:first-child { order: 2; }
-          section > div > div:last-child > div:last-child  { order: 1; }
+          .karta-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .karta-card-col { order: 1; }
+          .karta-grid > div:last-child { order: 2; }
+          .karta-scale-wrap {
+            transform: scale(0.82);
+            transform-origin: center top;
+            margin-bottom: -24px;
+          }
+        }
+        @media (max-width: 400px) {
+          .karta-scale-wrap {
+            transform: scale(0.72);
+            margin-bottom: -40px;
+          }
         }
       `}</style>
     </section>
