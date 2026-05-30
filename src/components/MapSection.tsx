@@ -2,7 +2,7 @@
 
 export default function MapSection() {
   return (
-    <section style={{ padding: '80px 0 0', background: '#fff' }}>
+    <section style={{ padding: '80px 0 60px', background: '#fff' }}>
       <div style={{ maxWidth: 1140, margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
