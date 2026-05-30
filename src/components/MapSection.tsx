@@ -29,12 +29,15 @@ export default function MapSection() {
           boxShadow: '0 32px 80px rgba(109,40,217,0.14), 0 4px 24px rgba(0,0,0,0.06)',
           border: '1px solid #ede9fe',
           height: 420,
+          width: '100%',
+          display: 'block',
         }}>
 
           {/* Map iframe */}
           <iframe
             src="https://www.openstreetmap.org/export/embed.html?bbox=17.028%2C51.082%2C17.048%2C51.092&layer=mapnik&marker=51.087%2C17.038"
             style={{
+              position: 'absolute', top: 0, left: 0,
               width: '100%', height: '100%',
               border: 'none', display: 'block',
               filter: 'saturate(0.85) hue-rotate(220deg) brightness(1.05)',
@@ -104,25 +107,27 @@ export default function MapSection() {
             </div>
           </div>
 
-          {/* Open in maps link */}
+        </div>
+
+        {/* Button below map */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
           <a
             href="https://maps.google.com/?q=al.+Karkonoska+45,+Wrocław"
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              position: 'absolute', bottom: 24, right: 24,
               background: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
-              color: '#fff', fontWeight: 700, fontSize: 13,
-              padding: '10px 18px', borderRadius: 100,
+              color: '#fff', fontWeight: 700, fontSize: 14,
+              padding: '12px 28px', borderRadius: 100,
               textDecoration: 'none',
-              boxShadow: '0 4px 16px rgba(109,40,217,0.4)',
-              display: 'flex', alignItems: 'center', gap: 6,
-              transition: 'transform 0.2s',
+              boxShadow: '0 4px 16px rgba(109,40,217,0.35)',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              transition: 'transform 0.2s, box-shadow 0.2s',
             }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={e => e.currentTarget.style.transform = ''}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(109,40,217,0.45)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 16px rgba(109,40,217,0.35)' }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
               <polyline points="15 3 21 3 21 9"/>
               <line x1="10" y1="14" x2="21" y2="3"/>
